@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object-Oriented Programming - Uitleg</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2C5F2D;      /* Forest green */
+            --secondary: #028090;     /* Teal */
+            --accent: #F96167;        /* Coral */
+            --dark: #1E2761;          /* Navy */
+            --light-bg: #F5F5F5;
+            --white: #FFFFFF;
+            --text-dark: #2C2C2C;
+            --text-gray: #5A5A5A;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--light-bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--dark) 0%, #2a3a7c 100%);
+            color: var(--white);
+            padding: 80px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            color: #CADCFC;
+            font-style: italic;
+        }
+
+        /* Section Styles */
+        .section {
+            background: var(--white);
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .section h2.secondary {
+            color: var(--secondary);
+            border-bottom-color: var(--secondary);
+        }
+
+        .section h2.accent {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .section h3 {
+            font-size: 1.8em;
+            margin: 30px 0 15px 0;
+            color: var(--dark);
+        }
+
+        /* Colored Text */
+        .primary-text {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .secondary-text {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .accent-text {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Definition Box */
+        .definition-box {
+            background: linear-gradient(135deg, #f0f9f0 0%, #e8f5e9 100%);
+            border-left: 6px solid var(--primary);
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            font-size: 1.15em;
+            line-height: 1.8;
+        }
+
+        .definition-box.secondary {
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            border-left-color: var(--secondary);
+        }
+
+        .definition-box.accent {
+            background: linear-gradient(135deg, #fff0f0 0%, #ffe6e6 100%);
+            border-left-color: var(--accent);
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .card {
+            background: var(--white);
+            border: 3px solid var(--primary);
+            border-radius: 10px;
+            padding: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 8px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .card.secondary {
+            border-color: var(--secondary);
+        }
+
+        .card.secondary::before {
+            background: var(--secondary);
+        }
+
+        .card.accent {
+            border-color: var(--accent);
+        }
+
+        .card.accent::before {
+            background: var(--accent);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .card h4 {
+            font-size: 1.4em;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+
+        .card.secondary h4 {
+            color: var(--secondary);
+        }
+
+        .card.accent h4 {
+            color: var(--accent);
+        }
+
+        .card p {
+            color: var(--text-gray);
+            line-height: 1.7;
+        }
+
+        /* Code Blocks */
+        .code-container {
+            display: flex;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .code-box {
+            flex: 1;
+            min-width: 300px;
+            background: #2D2D2D;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .code-box pre {
+            margin: 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #ABB2BF;
+        }
+
+        .code-box .comment {
+            color: #5C6370;
+            font-style: italic;
+        }
+
+        .code-box .keyword {
+            color: #C678DD;
+        }
+
+        .code-box .class-name {
+            color: #E06C75;
+        }
+
+        .code-box .function {
+            color: #61AFEF;
+        }
+
+        .code-box .string {
+            color: #98C379;
+        }
+
+        .code-box .number {
+            color: #D19A66;
+        }
+
+        .code-box .self {
+            color: #E06C75;
+        }
+
+        .code-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        /* Explanation Box */
+        .explanation-box {
+            background: var(--light-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .explanation-box h4 {
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .explanation-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .explanation-box li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .explanation-box li::before {
+            content: '▸';
+            position: absolute;
+            left: 10px;
+            color: var(--primary);
+            font-size: 1.2em;
+        }
+
+        /* Analogy Box */
+        .analogy-box {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff4cc 100%);
+            border: 2px solid #ffd966;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            font-size: 1.1em;
+        }
+
+        .analogy-box::before {
+            content: '🏗️';
+            font-size: 2em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .analogy-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        /* Key Points */
+        .key-points {
+            background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .key-points h4 {
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .key-points ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .key-points li {
+            padding: 8px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 1.05em;
+        }
+
+        .key-points li::before {
+            content: '✓';
+            position: absolute;
+            left: 10px;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        /* Visual Objects */
+        .objects-container {
+            display: flex;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .object-card {
+            background: var(--white);
+            border: 3px solid var(--secondary);
+            border-radius: 10px;
+            padding: 20px;
+            min-width: 250px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .object-card .object-name {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-family: 'Consolas', monospace;
+        }
+
+        .object-card .object-attr {
+            text-align: left;
+            font-size: 0.95em;
+            color: var(--text-dark);
+            line-height: 1.8;
+        }
+
+        /* Insight Box */
+        .insight-box {
+            background: linear-gradient(135deg, #ffe6e6 0%, #ffcccc 100%);
+            border-left: 6px solid var(--accent);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            font-size: 1.1em;
+        }
+
+        .insight-box::before {
+            content: '💡';
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        /* Flow Diagram */
+        .flow-diagram {
+            display: flex;
+            gap: 20px;
+            margin: 30px 0;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            background: var(--white);
+            border: 3px solid var(--primary);
+            border-radius: 10px;
+            padding: 20px;
+            min-width: 200px;
+            text-align: center;
+            position: relative;
+        }
+
+        .flow-step.secondary {
+            border-color: var(--secondary);
+        }
+
+        .flow-step.accent {
+            border-color: var(--accent);
+        }
+
+        .flow-step .step-number {
+            background: var(--primary);
+            color: var(--white);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2em;
+            margin: 0 auto 10px;
+        }
+
+        .flow-step.secondary .step-number {
+            background: var(--secondary);
+        }
+
+        .flow-step.accent .step-number {
+            background: var(--accent);
+        }
+
+        .flow-step h4 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 1.2em;
+        }
+
+        .flow-step.secondary h4 {
+            color: var(--secondary);
+        }
+
+        .flow-step.accent h4 {
+            color: var(--accent);
+        }
+
+        .flow-arrow {
+            font-size: 2em;
+            color: var(--text-gray);
+        }
+
+        /* Assignment Cards */
+        .assignment {
+            background: var(--white);
+            border: 4px solid var(--primary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .assignment::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 12px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .assignment.secondary {
+            border-color: var(--secondary);
+        }
+
+        .assignment.secondary::before {
+            background: var(--secondary);
+        }
+
+        .assignment.accent {
+            border-color: var(--accent);
+        }
+
+        .assignment.accent::before {
+            background: var(--accent);
+        }
+
+        .assignment h3 {
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .assignment.secondary h3 {
+            color: var(--secondary);
+        }
+
+        .assignment.accent h3 {
+            color: var(--accent);
+        }
+
+        .assignment-content {
+            padding-left: 20px;
+        }
+
+        .assignment-content p {
+            margin: 10px 0;
+            line-height: 1.8;
+        }
+
+        .assignment-content strong {
+            color: var(--dark);
+        }
+
+        .assignment-content ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .assignment-content li {
+            margin: 8px 0;
+            line-height: 1.7;
+        }
+
+        /* Summary Section */
+        .summary {
+            background: linear-gradient(135deg, var(--dark) 0%, #2a3a7c 100%);
+            color: var(--white);
+            padding: 50px;
+            border-radius: 15px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .summary h2 {
+            color: var(--white);
+            border: none;
+            margin-bottom: 30px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .summary-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 25px;
+            transition: transform 0.3s;
+        }
+
+        .summary-card:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .summary-card h4 {
+            color: #CADCFC;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .summary-card p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .final-message {
+            background: rgba(249, 97, 103, 0.3);
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            font-size: 1.2em;
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .nav-container ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-container a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .nav-container a:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .hero p {
+                font-size: 1.2em;
+            }
+
+            .section {
+                padding: 25px;
+            }
+
+            .section h2 {
+                font-size: 2em;
+            }
+
+            .code-container {
+                flex-direction: column;
+            }
+
+            .flow-diagram {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .toc h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .toc ol {
+            padding-left: 25px;
+        }
+
+        .toc li {
+            margin: 10px 0;
+        }
+
+        .toc a {
+            color: var(--dark);
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+
+        .toc a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>Object-Oriented Programming</h1>
+            <p>Een Heldere en Gedetailleerde Uitleg met Praktische Voorbeelden</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-container">
+            <ul>
+                <li><a href="#wat-is-oop">Wat is OOP?</a></li>
+                <li><a href="#waarom">Waarom OOP?</a></li>
+                <li><a href="#klasse">Klasse</a></li>
+                <li><a href="#object">Object</a></li>
+                <li><a href="#attributen">Attributen</a></li>
+                <li><a href="#methoden">Methoden</a></li>
+                <li><a href="#constructor">Constructor</a></li>
+                <li><a href="#praktijk">Praktijk</a></li>
+                <li><a href="#opdrachten">Opdrachten</a></li>
+            </ul>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h3>📋 Inhoudsopgave</h3>
+            <ol>
+                <li><a href="#wat-is-oop">Wat is Object-Oriented Programming?</a></li>
+                <li><a href="#waarom">Waarom OOP Gebruiken?</a></li>
+                <li><a href="#klasse">Concept 1: De Klasse (Class)</a></li>
+                <li><a href="#object">Concept 2: Het Object</a></li>
+                <li><a href="#attributen">Concept 3: Attributen (Data)</a></li>
+                <li><a href="#methoden">Concept 4: Methoden (Gedrag)</a></li>
+                <li><a href="#constructor">De Constructor (__init__)</a></li>
+                <li><a href="#praktijk">Praktisch Voorbeeld: Volledige Klasse</a></li>
+                <li><a href="#opdrachten">Opdrachten om Te Oefenen</a></li>
+                <li><a href="#samenvatting">Samenvatting</a></li>
+            </ol>
+        </div>
+
+        <!-- Section 1: What is OOP -->
+        <div class="section" id="wat-is-oop">
+            <h2>Wat is Object-Oriented Programming?</h2>
+            
+            <div class="definition-box">
+                <p>
+                    Object-Oriented Programming (OOP) is een programmeerparadigma gebaseerd op het concept van 
+                    <span class="primary-text">'objecten'</span>. Deze objecten bevatten zowel 
+                    <span class="secondary-text">data (attributen)</span> als 
+                    <span class="accent-text">gedrag (methoden)</span>. OOP helpt ons om complexe programma's 
+                    te structureren op een manier die lijkt op hoe we over de echte wereld denken.
+                </p>
+            </div>
+
+            <h3>Kernconcepten van OOP</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <h4>Encapsulatie</h4>
+                    <p>Data en methoden samen verpakken in één object. Dit beschermt de interne staat en zorgt voor een duidelijke interface.</p>
+                </div>
+                <div class="card secondary">
+                    <h4>Abstractie</h4>
+                    <p>Complexiteit verbergen en alleen essentiële details tonen. Je hoeft niet te weten hoe iets werkt om het te gebruiken.</p>
+                </div>
+                <div class="card accent">
+                    <h4>Overerving (Inheritance)</h4>
+                    <p>Eigenschappen en gedrag overnemen van andere klassen. Dit bevordert hergebruik en logische hiërarchieën.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Why OOP -->
+        <div class="section" id="waarom">
+            <h2>Waarom OOP Gebruiken?</h2>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <h4>🔄 Herbruikbaarheid</h4>
+                    <p>Code één keer schrijven en meerdere keren gebruiken. Klassen kunnen worden gebruikt om oneindig veel objecten te maken zonder code te dupliceren. Dit bespaart tijd en vermindert bugs.</p>
+                </div>
+                
+                <div class="card secondary">
+                    <h4>🔧 Onderhoudbaarheid</h4>
+                    <p>Wijzigingen aanbrengen in één klasse beïnvloedt automatisch alle objecten van die klasse. Dit maakt updates eenvoudiger, voorkomt fouten, en zorgt voor consistentie.</p>
+                </div>
+                
+                <div class="card accent">
+                    <h4>📈 Schaalbaarheid</h4>
+                    <p>Nieuwe functionaliteit toevoegen door klassen uit te breiden zonder bestaande code te wijzigen. Perfect voor groeiende projecten en teamwerk.</p>
+                </div>
+                
+                <div class="card">
+                    <h4>🌍 Realistische Modellering</h4>
+                    <p>Code weerspiegelt de echte wereld. Een 'Auto' object heeft eigenschappen (kleur, merk) en kan dingen doen (rijden, remmen). Dit maakt code intuïtiever en gemakkelijker te begrijpen.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Class -->
+        <div class="section" id="klasse">
+            <h2>Concept 1: De Klasse (Class)</h2>
+            
+            <div class="definition-box">
+                <p>
+                    <strong>Wat is een Klasse?</strong><br><br>
+                    Een klasse is een <span class="secondary-text">blauwdruk of sjabloon</span> voor het maken van objecten. 
+                    Het definieert welke <span class="secondary-text">data</span> objecten hebben en welke 
+                    <span class="accent-text">acties</span> ze kunnen uitvoeren.
+                </p>
+            </div>
+
+            <div class="code-container">
+                <div style="flex: 1;">
+                    <div class="code-title">Python Code Voorbeeld:</div>
+                    <div class="code-box">
+                        <pre><span class="keyword">class</span> <span class="class-name">Hond</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="self">self</span>, naam, ras):
+        <span class="self">self</span>.naam = naam
+        <span class="self">self</span>.ras = ras
+    
+    <span class="keyword">def</span> <span class="function">blaf</span>(<span class="self">self</span>):
+        <span class="function">print</span>(<span class="string">'Waf waf!'</span>)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analogy-box">
+                <div class="analogy-title">Echte Wereld Analogie</div>
+                <p>
+                    Denk aan een <span class="primary-text">bouwtekening van een huis</span>. De tekening (klasse) 
+                    beschrijft hoe elk huis eruit moet zien: aantal kamers, deuren, ramen. Je kunt deze tekening 
+                    gebruiken om <span class="secondary-text">meerdere huizen</span> te bouwen. Elk huis (object) 
+                    volgt dezelfde blauwdruk maar kan <span class="accent-text">unieke kenmerken</span> hebben zoals 
+                    kleur of adres.
+                </p>
+            </div>
+
+            <div class="key-points">
+                <h4>🔑 Belangrijke Punten:</h4>
+                <ul>
+                    <li>Een klasse is <span class="accent-text">niet</span> het object zelf, maar de instructies om objecten te maken</li>
+                    <li>Je kunt <span class="secondary-text">oneindig veel objecten</span> maken van één klasse</li>
+                    <li>Elke klasse begint met het sleutelwoord <code class="primary-text">class</code> gevolgd door de naam</li>
+                    <li>Klassennamen gebruiken meestal CamelCase (bijvoorbeeld: <code>BankRekening</code>, <code>AutomobielFabriek</code>)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 4: Object -->
+        <div class="section" id="object">
+            <h2 class="secondary">Concept 2: Het Object</h2>
+            
+            <div class="definition-box secondary">
+                <p>
+                    <strong>Wat is een Object?</strong><br><br>
+                    Een object is een <span class="primary-text">concrete instantie</span> van een klasse. 
+                    Het is het <span class="accent-text">daadwerkelijke 'ding'</span> dat bestaat in je programma met:
+                </p>
+                <ul style="margin-top: 15px; padding-left: 25px;">
+                    <li>Specifieke <span class="secondary-text">waarden</span> voor attributen</li>
+                    <li>Het <span class="primary-text">vermogen</span> om methoden uit te voeren</li>
+                </ul>
+            </div>
+
+            <div class="code-container">
+                <div style="flex: 1;">
+                    <div class="code-title">Objecten Maken en Gebruiken:</div>
+                    <div class="code-box">
+                        <pre><span class="comment"># Objecten maken van de Hond klasse</span>
+hond1 = <span class="class-name">Hond</span>(<span class="string">'Max'</span>, <span class="string">'Golden Retriever'</span>)
+hond2 = <span class="class-name">Hond</span>(<span class="string">'Bella'</span>, <span class="string">'Labrador'</span>)
+hond3 = <span class="class-name">Hond</span>(<span class="string">'Rex'</span>, <span class="string">'Duitse Herder'</span>)
+
+<span class="comment"># Objecten gebruiken</span>
+<span class="function">print</span>(hond1.naam)  <span class="comment"># Output: Max</span>
+hond2.<span class="function">blaf</span>()      <span class="comment"># Output: Waf waf!</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Visuele Voorstelling van Objecten</h3>
+            <div class="objects-container">
+                <div class="object-card">
+                    <div class="object-name">hond1</div>
+                    <div class="object-attr">
+                        <strong>naam:</strong> 'Max'<br>
+                        <strong>ras:</strong> 'Golden Retriever'
+                    </div>
+                </div>
+                <div class="object-card">
+                    <div class="object-name">hond2</div>
+                    <div class="object-attr">
+                        <strong>naam:</strong> 'Bella'<br>
+                        <strong>ras:</strong> 'Labrador'
+                    </div>
+                </div>
+                <div class="object-card">
+                    <div class="object-name">hond3</div>
+                    <div class="object-attr">
+                        <strong>naam:</strong> 'Rex'<br>
+                        <strong>ras:</strong> 'Duitse Herder'
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <strong>Belangrijk Inzicht:</strong> Alle drie objecten komen van <span class="primary-text">dezelfde Hond klasse</span>, 
+                maar elk heeft <span class="secondary-text">unieke waarden</span> voor naam en ras. Ze zijn allemaal honden, 
+                maar verschillende exemplaren met eigen karakteristieken.
+            </div>
+        </div>
+
+        <!-- Section 5: Attributes -->
+        <div class="section" id="attributen">
+            <h2 class="secondary">Concept 3: Attributen (Data)</h2>
+            
+            <div class="definition-box secondary">
+                <p>
+                    <strong>Wat zijn Attributen?</strong><br><br>
+                    Attributen zijn de <span class="primary-text">eigenschappen of kenmerken</span> van een object. 
+                    Ze slaan <span class="accent-text">informatie op</span> die het object beschrijft. In Python worden 
+                    attributen gedefinieerd in de <code class="secondary-text">__init__</code> methode (de constructor).
+                </p>
+            </div>
+
+            <div class="code-container">
+                <div style="flex: 1;">
+                    <div class="code-title">Gedetailleerd Voorbeeld:</div>
+                    <div class="code-box">
+                        <pre><span class="keyword">class</span> <span class="class-name">Student</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="self">self</span>, naam, leeftijd, studierichting):
+        <span class="self">self</span>.naam = naam
+        <span class="self">self</span>.leeftijd = leeftijd
+        <span class="self">self</span>.studierichting = studierichting
+        <span class="self">self</span>.cijfers = []  <span class="comment"># Leeg bij aanmaken</span>
+
+<span class="comment"># Student object maken</span>
+student1 = <span class="class-name">Student</span>(<span class="string">'Emma'</span>, <span class="number">20</span>, <span class="string">'AI'</span>)
+
+<span class="comment"># Attributen gebruiken</span>
+<span class="function">print</span>(student1.naam)  <span class="comment"># Output: Emma</span>
+<span class="function">print</span>(student1.leeftijd)  <span class="comment"># Output: 20</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="explanation-box">
+                <h4>Uitleg van Attributen:</h4>
+                <ul>
+                    <li><code class="primary-text">self.naam</code> - Slaat de naam van de student op (string)</li>
+                    <li><code class="secondary-text">self.leeftijd</code> - Slaat de leeftijd op (getal/integer)</li>
+                    <li><code class="accent-text">self.studierichting</code> - Slaat de gekozen studierichting op (string)</li>
+                    <li><code class="primary-text">self.cijfers</code> - Lijst om alle behaalde cijfers bij te houden (list)</li>
+                </ul>
+            </div>
+
+            <div class="key-points">
+                <h4>🔑 Belangrijke Regel:</h4>
+                <ul>
+                    <li>Gebruik <span class="accent-text">altijd</span> <code class="secondary-text">self</code> voor attributen zodat ze <span class="accent-text">bij het object horen</span> en niet vergeten worden na de __init__ methode</li>
+                    <li>Attributen zonder <code>self</code> zijn lokale variabelen die verdwijnen na de functie</li>
+                    <li>Je kunt attributen later nog toevoegen of wijzigen via methoden</li>
+                    <li>Gebruik duidelijke, beschrijvende namen voor je attributen</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 6: Methods -->
+        <div class="section" id="methoden">
+            <h2 class="accent">Concept 4: Methoden (Gedrag)</h2>
+            
+            <div class="definition-box accent">
+                <p>
+                    <strong>Wat zijn Methoden?</strong><br><br>
+                    Methoden zijn <span class="primary-text">functies die bij een object horen</span>. Ze definiëren 
+                    wat een object <span class="secondary-text">kan doen</span> - de acties of het gedrag. Methoden 
+                    kunnen attributen <span class="accent-text">lezen én wijzigen</span>, en kunnen ook resultaten teruggeven.
+                </p>
+            </div>
+
+            <div class="code-container">
+                <div style="flex: 1;">
+                    <div class="code-title">Uitgebreid Voorbeeld met BankRekening:</div>
+                    <div class="code-box">
+                        <pre><span class="keyword">class</span> <span class="class-name">BankRekening</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="self">self</span>, houder, saldo=<span class="number">0</span>):
+        <span class="self">self</span>.houder = houder
+        <span class="self">self</span>.saldo = saldo
+    
+    <span class="keyword">def</span> <span class="function">storten</span>(<span class="self">self</span>, bedrag):
+        <span class="comment">"""Voegt geld toe aan het saldo"""</span>
+        <span class="self">self</span>.saldo += bedrag
+        <span class="keyword">return</span> <span class="string">f'Gestort: €{bedrag}'</span>
+    
+    <span class="keyword">def</span> <span class="function">opnemen</span>(<span class="self">self</span>, bedrag):
+        <span class="comment">"""Haalt geld af van het saldo"""</span>
+        <span class="keyword">if</span> <span class="self">self</span>.saldo >= bedrag:
+            <span class="self">self</span>.saldo -= bedrag
+            <span class="keyword">return</span> <span class="string">f'Opgenomen: €{bedrag}'</span>
+        <span class="keyword">return</span> <span class="string">'Onvoldoende saldo'</span>
+    
+    <span class="keyword">def</span> <span class="function">toon_saldo</span>(<span class="self">self</span>):
+        <span class="comment">"""Toont het huidige saldo"""</span>
+        <span class="keyword">return</span> <span class="string">f'Saldo van {self.houder}: €{self.saldo}'</span>
+
+<span class="comment"># Gebruik van methoden</span>
+rekening = <span class="class-name">BankRekening</span>(<span class="string">'Lisa'</span>, <span class="number">100</span>)
+rekening.<span class="function">storten</span>(<span class="number">50</span>)    <span class="comment"># Saldo wordt €150</span>
+rekening.<span class="function">opnemen</span>(<span class="number">30</span>)   <span class="comment"># Saldo wordt €120</span>
+<span class="function">print</span>(rekening.<span class="function">toon_saldo</span>())  <span class="comment"># Output: Saldo van Lisa: €120</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="explanation-box">
+                <h4>Methoden Uitgelegd:</h4>
+                <ul>
+                    <li><code class="primary-text">storten(bedrag)</code> - Voegt geld toe aan self.saldo. Gebruikt self om het attribuut te wijzigen.</li>
+                    <li><code class="secondary-text">opnemen(bedrag)</code> - Haalt geld af van self.saldo. Controleert eerst of er genoeg saldo is (validatie).</li>
+                    <li><code class="accent-text">toon_saldo()</code> - Leest self.saldo en self.houder om informatie te tonen. Wijzigt niets.</li>
+                </ul>
+            </div>
+
+            <div class="insight-box">
+                <strong>⚡ Krachtig Concept:</strong> Methoden kunnen attributen <span class="primary-text">lezen én wijzigen</span>, 
+                waardoor objecten <span class="secondary-text">hun eigen staat kunnen beheren</span>. Dit heet "encapsulatie" - 
+                de logica en data zijn samen verpakt in het object.
+            </div>
+
+            <div class="key-points">
+                <h4>Belangrijke Punten over Methoden:</h4>
+                <ul>
+                    <li>Eerste parameter is <span class="accent-text">altijd self</span> (verwijst naar het object zelf)</li>
+                    <li>Methoden kunnen parameters accepteren (zoals <code>bedrag</code> in het voorbeeld)</li>
+                    <li>Methoden kunnen waarden teruggeven met <code class="primary-text">return</code></li>
+                    <li>Gebruik docstrings (""") om uit te leggen wat een methode doet</li>
+                    <li>Methoden kunnen andere methoden binnen dezelfde klasse aanroepen</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 7: Constructor -->
+        <div class="section" id="constructor">
+            <h2>De Constructor (__init__)</h2>
+            
+            <div class="definition-box">
+                <p>
+                    <strong>Wat is een Constructor?</strong><br><br>
+                    De constructor (<code class="secondary-text">__init__</code>) is een <span class="accent-text">speciale methode</span> 
+                    die <span class="primary-text">automatisch wordt uitgevoerd</span> wanneer je een nieuw object maakt. 
+                    Het <span class="secondary-text">initialiseert de attributen</span> met startwaarden.
+                </p>
+            </div>
+
+            <h3>Hoe de Constructor Werkt:</h3>
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <h4>Je roept klasse aan</h4>
+                    <p><code>hond = Hond('Max')</code></p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step secondary">
+                    <div class="step-number">2</div>
+                    <h4>__init__ uitgevoerd</h4>
+                    <p>Attributen worden gezet</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step accent">
+                    <div class="step-number">3</div>
+                    <h4>Object is klaar!</h4>
+                    <p>Je kunt het gebruiken</p>
+                </div>
+            </div>
+
+            <div class="code-container">
+                <div style="flex: 1;">
+                    <div class="code-title">Gedetailleerd Constructor Voorbeeld:</div>
+                    <div class="code-box">
+                        <pre><span class="keyword">class</span> <span class="class-name">Auto</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="self">self</span>, merk, kleur, jaar):
+        <span class="comment">"""Constructor: initialiseert een nieuwe auto"""</span>
+        <span class="self">self</span>.merk = merk
+        <span class="self">self</span>.kleur = kleur
+        <span class="self">self</span>.jaar = jaar
+        <span class="self">self</span>.kilometer_stand = <span class="number">0</span>  <span class="comment"># Standaardwaarde</span>
+        <span class="self">self</span>.motor_aan = <span class="keyword">False</span>
+        
+        <span class="comment"># Dit wordt uitgevoerd bij maken van object</span>
+        <span class="function">print</span>(<span class="string">f'Nieuwe {merk} aangemaakt!'</span>)
+
+<span class="comment"># Object maken - __init__ wordt automatisch aangeroepen</span>
+mijn_auto = <span class="class-name">Auto</span>(<span class="string">'Toyota'</span>, <span class="string">'Blauw'</span>, <span class="number">2020</span>)
+<span class="comment"># Output: Nieuwe Toyota aangemaakt!</span>
+
+<span class="function">print</span>(mijn_auto.merk)  <span class="comment"># Output: Toyota</span>
+<span class="function">print</span>(mijn_auto.kilometer_stand)  <span class="comment"># Output: 0</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-points">
+                <h4>Belangrijke Details over Constructors:</h4>
+                <ul>
+                    <li>De eerste parameter is <span class="accent-text">altijd self</span> (verwijst naar het object dat wordt aangemaakt)</li>
+                    <li>Je kunt <span class="secondary-text">standaardwaarden</span> instellen voor parameters (zoals <code>saldo=0</code>)</li>
+                    <li>__init__ wordt <span class="accent-text">automatisch</span> aangeroepen - jij roept het niet expliciet aan</li>
+                    <li>Attributen die je in __init__ maakt zijn <span class="primary-text">beschikbaar in alle methoden</span> van de klasse</li>
+                    <li>Je kunt validatie toevoegen in __init__ om te controleren of de waarden correct zijn</li>
+                    <li>Code in __init__ wordt maar één keer uitgevoerd: bij het aanmaken van het object</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 8: Practical Example -->
+        <div class="section" id="praktijk">
+            <h2>Praktisch Voorbeeld: Volledige Klasse</h2>
+            
+            <p style="font-size: 1.1em; margin-bottom: 25px;">
+                Hier is een complete, praktische klasse die alle concepten combineert: 
+                <span class="primary-text">klasse</span>, <span class="secondary-text">attributen</span>, 
+                <span class="accent-text">methoden</span>, en de <span class="primary-text">constructor</span>.
+            </p>
+
+            <div class="code-container">
+                <div style="flex: 1;">
+                    <div class="code-title">Volledige TakenLijst Klasse:</div>
+                    <div class="code-box">
+                        <pre><span class="keyword">class</span> <span class="class-name">TakenLijst</span>:
+    <span class="comment">"""Klasse om taken te beheren voor een gebruiker"""</span>
+    
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="self">self</span>, eigenaar):
+        <span class="comment">"""Constructor: maakt nieuwe takenlijst aan"""</span>
+        <span class="self">self</span>.eigenaar = eigenaar
+        <span class="self">self</span>.taken = []
+        <span class="function">print</span>(<span class="string">f'Takenlijst aangemaakt voor {eigenaar}'</span>)
+    
+    <span class="keyword">def</span> <span class="function">voeg_taak_toe</span>(<span class="self">self</span>, taak):
+        <span class="comment">"""Voegt een taak toe aan de lijst"""</span>
+        <span class="self">self</span>.taken.append(taak)
+        <span class="function">print</span>(<span class="string">f'✓ Taak toegevoegd: {taak}'</span>)
+    
+    <span class="keyword">def</span> <span class="function">verwijder_taak</span>(<span class="self">self</span>, taak):
+        <span class="comment">"""Verwijdert een taak van de lijst"""</span>
+        <span class="keyword">if</span> taak <span class="keyword">in</span> <span class="self">self</span>.taken:
+            <span class="self">self</span>.taken.remove(taak)
+            <span class="function">print</span>(<span class="string">f'✗ Taak verwijderd: {taak}'</span>)
+        <span class="keyword">else</span>:
+            <span class="function">print</span>(<span class="string">f'Taak niet gevonden: {taak}'</span>)
+    
+    <span class="keyword">def</span> <span class="function">aantal_taken</span>(<span class="self">self</span>):
+        <span class="comment">"""Geeft het aantal taken terug"""</span>
+        <span class="keyword">return</span> <span class="function">len</span>(<span class="self">self</span>.taken)
+    
+    <span class="keyword">def</span> <span class="function">toon_taken</span>(<span class="self">self</span>):
+        <span class="comment">"""Toont alle taken in een genummerde lijst"""</span>
+        <span class="function">print</span>(<span class="string">f'\n📋 Taken van {self.eigenaar}:'</span>)
+        <span class="keyword">if</span> <span class="keyword">not</span> <span class="self">self</span>.taken:
+            <span class="function">print</span>(<span class="string">'  (Geen taken)'</span>)
+        <span class="keyword">else</span>:
+            <span class="keyword">for</span> idx, taak <span class="keyword">in</span> <span class="function">enumerate</span>(<span class="self">self</span>.taken, <span class="number">1</span>):
+                <span class="function">print</span>(<span class="string">f'  {idx}. {taak}'</span>)
+    
+    <span class="keyword">def</span> <span class="function">is_leeg</span>(<span class="self">self</span>):
+        <span class="comment">"""Controleert of de lijst leeg is"""</span>
+        <span class="keyword">return</span> <span class="function">len</span>(<span class="self">self</span>.taken) == <span class="number">0</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-container">
+                <div style="flex: 1;">
+                    <div class="code-title">Gebruik van de TakenLijst Klasse:</div>
+                    <div class="code-box">
+                        <pre><span class="comment"># Object maken</span>
+mijn_lijst = <span class="class-name">TakenLijst</span>(<span class="string">'Sophie'</span>)
+<span class="comment"># Output: Takenlijst aangemaakt voor Sophie</span>
+
+<span class="comment"># Taken toevoegen</span>
+mijn_lijst.<span class="function">voeg_taak_toe</span>(<span class="string">'Python leren'</span>)
+<span class="comment"># Output: ✓ Taak toegevoegd: Python leren</span>
+
+mijn_lijst.<span class="function">voeg_taak_toe</span>(<span class="string">'OOP oefenen'</span>)
+<span class="comment"># Output: ✓ Taak toegevoegd: OOP oefenen</span>
+
+mijn_lijst.<span class="function">voeg_taak_toe</span>(<span class="string">'Project maken'</span>)
+<span class="comment"># Output: ✓ Taak toegevoegd: Project maken</span>
+
+<span class="comment"># Aantal taken checken</span>
+<span class="function">print</span>(<span class="string">f'Aantal taken: {mijn_lijst.aantal_taken()}'</span>)
+<span class="comment"># Output: Aantal taken: 3</span>
+
+<span class="comment"># Alle taken tonen</span>
+mijn_lijst.<span class="function">toon_taken</span>()
+<span class="comment"># Output:
+# 📋 Taken van Sophie:
+#   1. Python leren
+#   2. OOP oefenen
+#   3. Project maken</span>
+
+<span class="comment"># Taak verwijderen</span>
+mijn_lijst.<span class="function">verwijder_taak</span>(<span class="string">'OOP oefenen'</span>)
+<span class="comment"># Output: ✗ Taak verwijderd: OOP oefenen</span>
+
+<span class="comment"># Controleren of lijst leeg is</span>
+<span class="function">print</span>(<span class="string">f'Is leeg? {mijn_lijst.is_leeg()}'</span>)
+<span class="comment"># Output: Is leeg? False</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Wat Gebeurt Hier?</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <h4>1️⃣ Constructor Initializeert</h4>
+                    <p>De <code>__init__</code> methode maakt het object aan met <code>eigenaar = 'Sophie'</code> en een lege <code>taken</code> lijst. Het object is nu klaar om te gebruiken.</p>
+                </div>
+                
+                <div class="card secondary">
+                    <h4>2️⃣ Methoden Wijzigen Staat</h4>
+                    <p>De <code>voeg_taak_toe()</code> methode voegt items toe aan <code>self.taken</code> en geeft feedback. De lijst wordt intern bijgehouden in het object.</p>
+                </div>
+                
+                <div class="card accent">
+                    <h4>3️⃣ Methoden Lezen Data</h4>
+                    <p><code>toon_taken()</code> leest <code>self.taken</code> en <code>self.eigenaar</code> om alles mooi geformatteerd te tonen. Het wijzigt niets, alleen weergeven.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 9: Assignments -->
+        <div class="section" id="opdrachten">
+            <h2 class="accent">Opdrachten om Te Oefenen</h2>
+            
+            <p style="font-size: 1.15em; margin-bottom: 30px;">
+                Tijd om zelf aan de slag te gaan! Hieronder vind je drie opdrachten van oplopende moeilijkheid. 
+                Maak ze allemaal om OOP echt te begrijpen. 💪
+            </p>
+
+            <!-- Assignment 1 -->
+            <div class="assignment">
+                <h3>📚 Opdracht 1: Boek Klasse (Basis)</h3>
+                <div class="assignment-content">
+                    <p><strong>Doel:</strong> Leer de basis van klassen, attributen en eenvoudige methoden.</p>
+                    
+                    <p><strong>Maak een <code class="primary-text">Boek</code> klasse met de volgende attributen:</strong></p>
+                    <ul>
+                        <li><code>titel</code> (string) - De titel van het boek</li>
+                        <li><code>auteur</code> (string) - De schrijver van het boek</li>
+                        <li><code>jaar</code> (int) - Het publicatiejaar</li>
+                        <li><code>gelezen</code> (boolean) - Of het boek gelezen is (standaard <code>False</code>)</li>
+                    </ul>
+                    
+                    <p><strong>Voeg deze methoden toe:</strong></p>
+                    <ul>
+                        <li><code class="primary-text">markeer_gelezen()</code> - Zet <code>gelezen</code> op <code>True</code> en print een bevestiging</li>
+                        <li><code class="primary-text">toon_info()</code> - Print alle informatie over het boek (titel, auteur, jaar, en of het gelezen is)</li>
+                    </ul>
+                    
+                    <p><strong>Test je klasse:</strong></p>
+                    <div class="code-box">
+                        <pre>boek1 = Boek(<span class="string">"1984"</span>, <span class="string">"George Orwell"</span>, <span class="number">1949</span>)
+boek1.<span class="function">toon_info</span>()
+boek1.<span class="function">markeer_gelezen</span>()
+boek1.<span class="function">toon_info</span>()</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assignment 2 -->
+            <div class="assignment secondary">
+                <h3>🛒 Opdracht 2: Winkelwagen Klasse (Gemiddeld)</h3>
+                <div class="assignment-content">
+                    <p><strong>Doel:</strong> Werk met lijsten, loops en meer complexe logica in methoden.</p>
+                    
+                    <p><strong>Maak een <code class="secondary-text">Winkelwagen</code> klasse met de volgende attributen:</strong></p>
+                    <ul>
+                        <li><code>klant_naam</code> (string) - Naam van de klant</li>
+                        <li><code>producten</code> (lijst) - Lijst van dictionaries met producten: <code>{'naam': '...', 'prijs': 0.00}</code></li>
+                    </ul>
+                    
+                    <p><strong>Implementeer deze methoden:</strong></p>
+                    <ul>
+                        <li><code class="secondary-text">voeg_product_toe(naam, prijs)</code> - Voegt een product (als dictionary) toe aan de lijst</li>
+                        <li><code class="secondary-text">verwijder_product(naam)</code> - Verwijdert een product op basis van de naam</li>
+                        <li><code class="secondary-text">bereken_totaal()</code> - Berekent en returnt de totale prijs van alle producten</li>
+                        <li><code class="secondary-text">toon_winkelwagen()</code> - Print alle producten met prijzen én het totaalbedrag</li>
+                        <li><code class="secondary-text">is_leeg()</code> - Returnt <code>True</code> als er geen producten in de winkelwagen zitten</li>
+                    </ul>
+                    
+                    <p><strong>Extra uitdaging:</strong> Voeg een <code>apply_discount(percentage)</code> methode toe die een korting toepast op alle producten.</p>
+                    
+                    <p><strong>Test je klasse:</strong></p>
+                    <div class="code-box">
+                        <pre>winkelen = Winkelwagen(<span class="string">"Alice"</span>)
+winkelen.<span class="function">voeg_product_toe</span>(<span class="string">"Laptop"</span>, <span class="number">899.99</span>)
+winkelen.<span class="function">voeg_product_toe</span>(<span class="string">"Muis"</span>, <span class="number">25.50</span>)
+winkelen.<span class="function">voeg_product_toe</span>(<span class="string">"Toetsenbord"</span>, <span class="number">75.00</span>)
+winkelen.<span class="function">toon_winkelwagen</span>()
+<span class="function">print</span>(<span class="string">f"Totaal: €{winkelen.bereken_totaal()}"</span>)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assignment 3 -->
+            <div class="assignment accent">
+                <h3>🎮 Opdracht 3: Speler Klasse voor Game (Uitdagend)</h3>
+                <div class="assignment-content">
+                    <p><strong>Doel:</strong> Maak een complexe klasse met interacterende methoden en state management.</p>
+                    
+                    <p><strong>Maak een <code class="accent-text">Speler</code> klasse voor een RPG game met deze attributen:</strong></p>
+                    <ul>
+                        <li><code>naam</code> (string) - Naam van de speler</li>
+                        <li><code>level</code> (int) - Begint op 1</li>
+                        <li><code>health</code> (int) - Begint op 100</li>
+                        <li><code>max_health</code> (int) - Maximum health (100)</li>
+                        <li><code>experience</code> (int) - Begint op 0</li>
+                        <li><code>inventory</code> (lijst) - Lege lijst bij start</li>
+                    </ul>
+                    
+                    <p><strong>Implementeer deze methoden:</strong></p>
+                    <ul>
+                        <li><code class="accent-text">neem_schade(schade)</code> - Vermindert health, check of speler nog leeft (health > 0). Print een bericht.</li>
+                        <li><code class="accent-text">genees(hoeveelheid)</code> - Verhoogt health, maar niet boven max_health. Print hoeveel gehealed.</li>
+                        <li><code class="accent-text">krijg_exp(exp)</code> - Voegt experience toe. Bij 100 exp: level omhoog, exp reset naar 0, health = max_health. Print level up!</li>
+                        <li><code class="accent-text">voeg_item_toe(item)</code> - Voegt item toe aan inventory</li>
+                        <li><code class="accent-text">gebruik_item(item)</code> - Verwijdert item uit inventory als het bestaat, anders print "Item niet in inventory"</li>
+                        <li><code class="accent-text">toon_status()</code> - Print alle stats (naam, level, health, exp, inventory)</li>
+                        <li><code class="accent-text">is_levend()</code> - Returnt <code>True</code> als health > 0</li>
+                    </ul>
+                    
+                    <p><strong>Extra uitdaging:</strong></p>
+                    <ul>
+                        <li>Voeg een <code>aanval_kracht</code> attribuut toe dat stijgt met level</li>
+                        <li>Maak een <code>val_aan(tegenstander)</code> methode die schade toebrengt aan een andere Speler instance</li>
+                        <li>Implementeer een <code>save_game()</code> methode die alle data opslaat in een dictionary</li>
+                    </ul>
+                    
+                    <p><strong>Test scenario:</strong></p>
+                    <div class="code-box">
+                        <pre>held = Speler(<span class="string">"Aragorn"</span>)
+held.<span class="function">toon_status</span>()
+
+<span class="comment"># Combat scenario</span>
+held.<span class="function">neem_schade</span>(<span class="number">30</span>)
+held.<span class="function">genees</span>(<span class="number">20</span>)
+held.<span class="function">voeg_item_toe</span>(<span class="string">"Zwaard"</span>)
+held.<span class="function">voeg_item_toe</span>(<span class="string">"Schild"</span>)
+
+<span class="comment"># Ervaring opdoen</span>
+held.<span class="function">krijg_exp</span>(<span class="number">50</span>)
+held.<span class="function">krijg_exp</span>(<span class="number">60</span>)  <span class="comment"># Zou level up moeten triggeren</span>
+
+held.<span class="function">toon_status</span>()</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-points">
+                <h4>💡 Tips voor de Opdrachten:</h4>
+                <ul>
+                    <li>Begin met het schrijven van de constructor (<code>__init__</code>) - definieer alle attributen</li>
+                    <li>Test elke methode apart voordat je verdergaat naar de volgende</li>
+                    <li>Gebruik <code>print()</code> statements om te debuggen en te zien wat er gebeurt</li>
+                    <li>Vergeet niet <code>self</code> te gebruiken voor alle attributen en bij het aanroepen van andere methoden</li>
+                    <li>Maak meerdere objecten om te testen of alles werkt (bijvoorbeeld 3 verschillende boeken)</li>
+                    <li>Vraag jezelf af: "Wat moet er gebeuren als...?" en test edge cases</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 10: Summary -->
+        <div class="summary" id="samenvatting">
+            <h2>🎯 Samenvatting</h2>
+            
+            <p style="font-size: 1.2em; margin-bottom: 40px;">
+                Je hebt nu alle basisbeginselen van Object-Oriented Programming geleerd!
+            </p>
+
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <h4>Klasse</h4>
+                    <p>Blauwdruk/sjabloon voor het maken van objecten. Definieert structuur en gedrag.</p>
+                </div>
+                
+                <div class="summary-card">
+                    <h4>Object</h4>
+                    <p>Concrete instantie van een klasse met eigen specifieke waarden.</p>
+                </div>
+                
+                <div class="summary-card">
+                    <h4>Attributen</h4>
+                    <p>Data/eigenschappen die informatie over het object opslaan.</p>
+                </div>
+                
+                <div class="summary-card">
+                    <h4>Methoden</h4>
+                    <p>Functies die acties/gedrag van objecten definiëren.</p>
+                </div>
+            </div>
+
+            <div class="final-message">
+                <strong style="font-size: 1.3em;">💪 Volgende Stappen:</strong><br><br>
+                Maak de opdrachten, experimenteer met eigen klassen, en ontdek de kracht van OOP! 
+                Hoe meer je oefent, hoe natuurlijker OOP gaat aanvoelen. Begin klein en bouw het uit.
+                <br><br>
+                Veel succes! 🚀
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section, .assignment').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+
+        // Add print functionality
+        function printPage() {
+            window.print();
+        }
+
+        // Console easter egg
+        console.log('%c🎉 Welkom bij OOP!', 'color: #2C5F2D; font-size: 20px; font-weight: bold;');
+        console.log('%cJe leert nu Object-Oriented Programming!', 'color: #028090; font-size: 14px;');
+        console.log('%cMaak alle opdrachten en word een OOP expert! 💪', 'color: #F96167; font-size: 14px;');
+    </script>
+</body>
+</html>
